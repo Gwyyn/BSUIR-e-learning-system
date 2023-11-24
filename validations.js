@@ -24,3 +24,11 @@ export const postCreateValidation = [
     body('tags', "Неверный формат тэгов").optional().isString(),
     body('imageUrl', "Неверная ссылка на изображение").optional().isString(),
 ]
+
+export const subjectCreateValidation = [
+    body('title', "Введите название учебной дисциплины").isLength({min: 3}).isString(),
+    body('text', "Введите текст учебной дисциплины").isLength({min: 10}).isString(),
+    body('tags', "Неверный формат тэгов").optional().isString(),
+    body('imageUrl', "Неверная ссылка на файл").optional().isString(),
+]
+
