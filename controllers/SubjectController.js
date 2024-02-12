@@ -2,9 +2,9 @@ import SubjectModel from '../models/Subject.js'
 
 export const getLastTags = async (req, res) => {
     try {
-        const posts = await SubjectModel.find().limit(5).exec();
+        const subjects = await SubjectModel.find().limit(5).exec();
 
-        const tags = posts
+        const tags = subjects
             .map(obj => obj.tags)
             .flat()
             .slice(0, 5)
@@ -20,9 +20,9 @@ export const getLastTags = async (req, res) => {
 
 export const getAll = async (req, res) => {
     try {
-        const posts = await SubjectModel.find().populate('user').exec();
+        const subjects = await SubjectModel.find().populate('user').exec();
 
-        res.json(posts);
+        res.json(subjects);
     } catch (err) {
         console.log(err)
         res.status(500).json({
@@ -33,11 +33,11 @@ export const getAll = async (req, res) => {
 
 export const getOne = async (req, res) => {
     try {
-        const postId = req.params.id;
+        const {id} = req.params;
 
         const doc = await SubjectModel.findOneAndUpdate(
             {
-                _id: postId,
+                _id: id,
             },
             {
                 returnDocument: "after",
@@ -59,10 +59,10 @@ export const getOne = async (req, res) => {
 
 export const remove = async (req, res) => {
     try {
-        const postId = req.params.id;
+        const subjectId = req.params.id;
 
         const doc = await SubjectModel.findOneAndDelete({
-            _id: postId,
+            _id: subjectId,
         })
 
         if (!doc) {
@@ -92,9 +92,9 @@ export const create = async (req, res) => {
             user: req.userId,
         });
 
-        const post = await doc.save();
+        const subject = await doc.save();
 
-        res.json(post)
+        res.json(subject)
     } catch (err) {
         console.log(err)
         res.status(500).json({
@@ -105,10 +105,10 @@ export const create = async (req, res) => {
 
 export const update = async (req, res) => {
     try {
-        const postId = req.params.id;
+        const subjectId = req.params.id;
 
         const doc = await SubjectModel.updateOne({
-                _id: postId,
+                _id: subjectId,
             },
             {
                 title: req.body.title,

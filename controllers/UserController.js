@@ -5,8 +5,6 @@ import UserModel from "../models/User.js";
 
 export const register = async (req, res) => {
     try {
-
-
         const password = req.body.password;
         const salt = await bcrypt.genSalt(10);
         const hash = await bcrypt.hash(password, salt);
@@ -15,6 +13,7 @@ export const register = async (req, res) => {
             role: req.body.role,
             firstName: req.body.firstName,
             lastName: req.body.lastName,
+            middleName: req.body.middleName,
             login: req.body.login,
             passwordHash: hash,
             avatarUrl: req.body.avatarUrl,
@@ -98,3 +97,24 @@ export const getMe = async (req, res) => {
         })
     }
 }
+
+export const getUserById = async (req, res) => {
+    try {
+        const user = await UserModel.findById(req.params.userId);
+
+        if (!user) {
+            return res.status(404).json({
+                message: "Пользователь не найден"
+            });
+        }
+
+        // const { passwordHash, ...userData } = user._doc;
+        res.json(user);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            message: "Ошибка при получении данных пользователя",
+            error: err.message
+        });
+    }
+};

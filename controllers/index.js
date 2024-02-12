@@ -1,3 +1,6 @@
 export * as  UserController from './UserController.js'
 export * as  PostController from './PostController.js'
 export * as SubjectController from './SubjectController.js'
+export * as LessonController from './LessonController.js'
+export * as AnswerController from './AnswerController.js'
+export * as AnswerGradeController from './AnswerGradeController.js'
